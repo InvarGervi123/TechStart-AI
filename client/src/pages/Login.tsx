@@ -12,9 +12,13 @@ const Login: React.FC = () => {
             setError('');
             await loginWithGoogle();
             navigate('/profile');
-        } catch (err) {
-            setError('Failed to log in');
-            console.error(err);
+        } catch (err: any) {
+            console.error('Login error:', err);
+            // Extract Firebase error message
+            const errorMessage = err.code
+                ? `Firebase Error: ${err.code}`
+                : err.message || 'Failed to log in';
+            setError(errorMessage);
         }
     };
 

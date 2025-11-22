@@ -4,22 +4,24 @@ import api from '../api/axios';
 
 const Profile: React.FC = () => {
     const { user } = useAuth();
-    const [profile, setProfile] = useState<any>(null);
+
     const [bio, setBio] = useState('');
     const [skills, setSkills] = useState('');
     const [generatedBio, setGeneratedBio] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const fetchProfile = async () => {
             if (user) {
                 try {
                     const res = await api.get(`/users/${user.uid}`);
-                    setProfile(res.data);
+
                     setBio(res.data.bio || '');
                     setSkills(res.data.skills?.join(', ') || '');
                 } catch (error) {
                     console.error('Error fetching profile:', error);
+                    // Don't show error here as it might be a new user
                 }
             }
         };
@@ -28,14 +30,16 @@ const Profile: React.FC = () => {
 
     const handleGenerateBio = async () => {
         setLoading(true);
+        setError('');
         try {
             const res = await api.post('/ai/generate-profile', {
                 skills: skills.split(',').map(s => s.trim()),
                 bio: bio
             });
             setGeneratedBio(res.data.description);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error generating bio:', error);
+            setError(error.response?.data?.message || 'Failed to generate bio. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -51,8 +55,11 @@ const Profile: React.FC = () => {
             alert('Profile updated!');
         } catch (error) {
             console.error('Error saving profile:', error);
+            alert('Failed to save profile.');
         }
     };
+
+    if (!user) return <div className="text-center mt-10">Please log in to view your profile.</div>;
 
     return (
         <div className="max-w-4xl mx-auto">
@@ -106,6 +113,7 @@ const Profile: React.FC = () => {
                             >
                                 {loading ? 'Generating...' : '✨ Improve with AI'}
                             </button>
+                            {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
                         </div>
 
                         {generatedBio && (
