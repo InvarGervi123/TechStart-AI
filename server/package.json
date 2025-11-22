@@ -1,0 +1,41 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "axios": "^1.13.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "firebase": "^12.6.0",
+    "firebase-admin": "^13.6.0",
+    "mongoose": "^9.0.0",
+    "react-router-dom": "^7.9.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.1",
+    "@types/react-router-dom": "^5.3.3",
+    "autoprefixer": "^10.4.22",
+    "nodemon": "^3.1.11",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
